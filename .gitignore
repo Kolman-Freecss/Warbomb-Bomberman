@@ -3,6 +3,10 @@
 
 .idea/
 
+#PrivateSystems
+Source/CoreGame/WarbombPrivateSystems/packages/*
+Content/3rdPartyAssets/packages/*
+
 # Compiled Object files
 *.slo
 *.lo

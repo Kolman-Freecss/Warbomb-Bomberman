@@ -10,7 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
-#include "Actors/TCBomb.h"
+#include "RoundComponents/TCBomb.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
