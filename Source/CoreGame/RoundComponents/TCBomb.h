@@ -38,7 +38,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	int Damage = 2.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
-	float InitialForce= 10000.f;
+	float InitialForce = 10000.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	UParticleSystem* ExplosionParticles = nullptr;
 
@@ -52,5 +52,6 @@ protected:
 	FTimerHandle ExplosionTimerHandle;
 
 	UFUNCTION()
-	void OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

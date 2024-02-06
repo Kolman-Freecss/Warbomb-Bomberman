@@ -4,7 +4,7 @@
 #include "TCBomb.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
-#include "CoreGame/CoreGameCharacter.h"
+#include "CoreGame/Character/CoreGameCharacter.h"
 #include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
@@ -24,7 +24,6 @@ ATCBomb::ATCBomb()
 	DamageArea = CreateDefaultSubobject<USphereComponent>(TEXT("DamageArea"));
 	DamageArea->SetupAttachment(Mesh);
 	DamageArea->SetSphereRadius(0.f);
-
 }
 
 // Called when the game starts or when spawned
@@ -55,9 +54,10 @@ void ATCBomb::OnFinishExplosion()
 	this->Destroy();
 }
 
-void ATCBomb::OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ATCBomb::OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+                             int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if(ACoreGameCharacter* MyCharacter = Cast<ACoreGameCharacter>(OtherActor))
+	if (ACoreGameCharacter* MyCharacter = Cast<ACoreGameCharacter>(OtherActor))
 	{
 		MyCharacter->GetDamage(Damage);
 	}

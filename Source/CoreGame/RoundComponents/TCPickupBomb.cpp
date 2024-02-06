@@ -4,7 +4,7 @@
 #include "TCPickupBomb.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
-#include "CoreGame/CoreGameCharacter.h"
+#include "CoreGame/Character/CoreGameCharacter.h"
 #include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
@@ -24,7 +24,6 @@ ATCPickupBomb::ATCPickupBomb()
 	DamageArea = CreateDefaultSubobject<USphereComponent>(TEXT("DamageArea"));
 	DamageArea->SetupAttachment(Mesh);
 	DamageArea->SetSphereRadius(0.f);
-
 }
 
 // Called when the game starts or when spawned
@@ -34,9 +33,11 @@ void ATCPickupBomb::BeginPlay()
 	DamageArea->OnComponentBeginOverlap.AddUniqueDynamic(this, &ATCPickupBomb::OnBeginOverlap);
 }
 
-void ATCPickupBomb::OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ATCPickupBomb::OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor,
+                                   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+                                   const FHitResult& SweepResult)
 {
-	if(ACoreGameCharacter* MyCharacter = Cast<ACoreGameCharacter>(OtherActor))
+	if (ACoreGameCharacter* MyCharacter = Cast<ACoreGameCharacter>(OtherActor))
 	{
 		Particle->Activate();
 		MyCharacter->AddBomb(Amount);

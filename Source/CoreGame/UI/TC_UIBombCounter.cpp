@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TC_UIBombCounter.h"
-#include "CoreGame/CoreGameCharacter.h"
+
+#include "CoreGame/Character/CoreGameCharacter.h"
 #include "Runtime/UMG/Public/Components/ProgressBar.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -20,9 +21,9 @@ void UTC_UIBombCounter::NativeOnInitialized()
 	}
 }
 
-ACoreGameCharacter* UTC_UIBombCounter::GetCoreCharacter()
+ACoreGameCharacter* UTC_UIBombCounter::GetCoreCharacter() const
 {
-	if(ACharacter * Character = UGameplayStatics::GetPlayerCharacter(this, 0))
+	if (ACharacter* Character = UGameplayStatics::GetPlayerCharacter(this, 0))
 	{
 		return Cast<ACoreGameCharacter>(Character);
 	}

@@ -15,9 +15,9 @@ class COREGAME_API UTC_UILifeBar : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void NativeOnInitialized();
-	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, meta = (BindWidget))
+	virtual void NativeOnInitialized() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UProgressBar* LifeBar = nullptr;
 
 protected:
@@ -25,9 +25,8 @@ protected:
 	void BP_OnReciveDamage(float Damage);
 
 private:
-
 	UFUNCTION()
 	void OnReciveDamage(float Damage, float Percent);
-	void SetProgresBarProgress(float Progress);
-	ACoreGameCharacter* GetCoreCharacter();
+	void SetProgresBarProgress(float Progress) const;
+	ACoreGameCharacter* GetCoreCharacter() const;
 };

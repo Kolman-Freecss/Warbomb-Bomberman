@@ -15,15 +15,14 @@ class COREGAME_API UTC_UIBombCounter : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void NativeOnInitialized();
+	virtual void NativeOnInitialized() override;
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_OnReciveBomb(int Amount, bool bWithAnimation = true);
 
 private:
-
 	UFUNCTION()
 	void OnReciveBomb(int Amount);
-	ACoreGameCharacter* GetCoreCharacter();
+	ACoreGameCharacter* GetCoreCharacter() const;
 };
