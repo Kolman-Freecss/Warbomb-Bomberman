@@ -144,6 +144,7 @@ void ACoreGameCharacter::Look(const FInputActionValue& Value)
 
 void ACoreGameCharacter::TakeDamage(float Damage, AActor* Offender)
 {
+	LifeController->Life -= Damage;
 	OnTakeDamage.Broadcast(Damage, Offender, LifeController);
 	BP_OnGetDamage(Damage, Offender);
 }
