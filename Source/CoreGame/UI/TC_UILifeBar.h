@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "_common/LifeController.h"
+#include "_common/LifeBarWidget.h"
 #include "TC_UILifeBar.generated.h"
 
 class UProgressBar;
 class ACoreGameCharacter;
 
 UCLASS()
-class COREGAME_API UTC_UILifeBar : public UTC_LifeController
+class COREGAME_API UTC_UILifeBar : public UTC_LifeBarWidget
 {
 	GENERATED_BODY()
 

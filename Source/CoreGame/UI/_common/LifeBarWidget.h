@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Runtime/UMG/Public/Components/ProgressBar.h"
-#include "LifeController.generated.h"
+#include "LifeBarWidget.generated.h"
 
 class UBaseLifeController;
 class IDamageable;
@@ -11,7 +11,7 @@ class UProgressBar;
 class ACoreGameCharacter;
 
 UCLASS(Abstract, meta = (ShortTooltip = "Base class for life controllers"))
-class COREGAME_API UTC_LifeController : public UUserWidget
+class COREGAME_API UTC_LifeBarWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
