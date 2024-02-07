@@ -3,30 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "_common/LifeController.h"
 #include "TC_UILifeBar.generated.h"
 
 class UProgressBar;
 class ACoreGameCharacter;
 
 UCLASS()
-class COREGAME_API UTC_UILifeBar : public UUserWidget
+class COREGAME_API UTC_UILifeBar : public UTC_LifeController
 {
 	GENERATED_BODY()
 
 public:
 	virtual void NativeOnInitialized() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
-	UProgressBar* LifeBar = nullptr;
-
-protected:
-	UFUNCTION(BlueprintImplementableEvent)
-	void BP_OnReciveDamage(float Damage);
-
 private:
 	UFUNCTION()
-	void OnReciveDamage(float Damage, float Percent);
-	void SetProgresBarProgress(float Progress) const;
 	ACoreGameCharacter* GetCoreCharacter() const;
 };
