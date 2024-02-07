@@ -70,8 +70,6 @@ void ACoreGameCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
-	Life = MaxLife;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -142,11 +140,10 @@ void ACoreGameCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
-void ACoreGameCharacter::GetDamage(int Damage)
+void ACoreGameCharacter::TakeDamage(float Damage, AActor* Offender)
 {
-	Life -= Damage;
-	OnPlayerReciveDamageEvent.Broadcast(Damage, (float)Life / MaxLife);
-	BP_OnGetDamage(Damage);
+	OnTakeDamage.Broadcast(Damage, Offender);
+	BP_OnGetDamage(Damage, Offender);
 }
 
 void ACoreGameCharacter::ThrowBomb()

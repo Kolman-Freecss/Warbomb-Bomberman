@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/Damageable/IDamageable.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "CoreGameCharacter.generated.h"
@@ -16,12 +17,12 @@ struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPlayerReciveDamage, float, Damage, float, HealthPercent);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerReciveBomb, int, Amount);
 
 
 UCLASS(config = Game)
-class ACoreGameCharacter : public ACharacter
+class ACoreGameCharacter : public ACharacter,
+                           public IDamageable
 {
 	GENERATED_BODY()
 
@@ -52,22 +53,15 @@ class ACoreGameCharacter : public ACharacter
 public:
 	ACoreGameCharacter();
 
-	FOnPlayerReciveDamage OnPlayerReciveDamageEvent;
 	FOnPlayerReciveBomb OnPlayerReciveBombEvent;
-
-	UFUNCTION(BlueprintCallable)
-	void GetDamage(int Damage);
 
 	UFUNCTION(BlueprintCallable)
 	void AddBomb(int Quantity);
 	int GetBombsQuantity() const;
 
-protected:
+	virtual void TakeDamage(float Damage, AActor* Offender) override;
 
-	UPROPERTY(BlueprintReadOnly, category = CoreCharacter)
-	int Life = 100;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
-	int MaxLife = 100;
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
 	float BombDelayTime = 2.f;
 
@@ -82,7 +76,7 @@ protected:
 	FTimerHandle BombTimerHandle;
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void BP_OnGetDamage(int Damage);
+	void BP_OnGetDamage(int Damage, AActor* Offender);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	FTransform BP_GetBombPosition();
@@ -100,13 +94,12 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
-
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// To add mapping context
-	virtual void BeginPlay();
+	virtual void BeginPlay() override;
 
 public:
 	/** Returns CameraBoom subobject **/

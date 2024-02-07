@@ -8,9 +8,10 @@
 
 void UTC_UILifeBar::NativeOnInitialized()
 {
+	Super::NativeOnInitialized();
 	if (ACoreGameCharacter* Character = GetCoreCharacter())
 	{
-		Character->OnPlayerReciveDamageEvent.AddUniqueDynamic(this, &UTC_UILifeBar::OnReciveDamage);
+		Character->OnTakeDamage.AddUniqueDynamic(this, &UTC_UILifeBar::OnReciveDamage);
 	}
 }
 

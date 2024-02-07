@@ -3,22 +3,23 @@
 #include "LifeController.h"
 
 #include "Animation/AnimInstance.h"
+#include "Components/WidgetComponent.h"
 
 void UTC_LifeController::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
+	Life = MaxLife;
+
 	SetProgresBarProgress(1.f);
 }
 
-UTC_LifeController::UTC_LifeController()
+void UTC_LifeController::OnReciveDamage(float Damage, AActor* Instigator)
 {
-}
-
-void UTC_LifeController::OnReciveDamage(float Damage, float Percent)
-{
+	Life -= Damage;
 	BP_OnReciveDamage(Damage);
-	SetProgresBarProgress(Percent);
+	SetProgresBarProgress((float)Life / MaxLife);
+	UE_LOG(LogTemp, Warning, TEXT("LifeController: %f damage, Instigator: %s"), Damage, *Instigator->GetName());
 }
 
 void UTC_LifeController::SetProgresBarProgress(float Progress) const
