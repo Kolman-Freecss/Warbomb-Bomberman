@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "../RoundComponents/TCBomb.h"
+#include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/_common/BaseLifeController.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -54,6 +55,7 @@ ACoreGameCharacter::ACoreGameCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+	LifeController = CreateDefaultSubobject<UBaseLifeController>(TEXT("LifeController"));
 }
 
 void ACoreGameCharacter::BeginPlay()
@@ -142,7 +144,7 @@ void ACoreGameCharacter::Look(const FInputActionValue& Value)
 
 void ACoreGameCharacter::TakeDamage(float Damage, AActor* Offender)
 {
-	OnTakeDamage.Broadcast(Damage, Offender);
+	OnTakeDamage.Broadcast(Damage, Offender, LifeController);
 	BP_OnGetDamage(Damage, Offender);
 }
 

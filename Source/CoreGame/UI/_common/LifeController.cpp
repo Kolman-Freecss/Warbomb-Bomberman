@@ -4,22 +4,21 @@
 
 #include "Animation/AnimInstance.h"
 #include "Components/WidgetComponent.h"
+#include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/_common/BaseLifeController.h"
 
 void UTC_LifeController::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	Life = MaxLife;
-
 	SetProgresBarProgress(1.f);
 }
 
-void UTC_LifeController::OnReciveDamage(float Damage, AActor* Instigator)
+void UTC_LifeController::OnReciveDamage(float Damage, AActor* Offender, UBaseLifeController* Target)
 {
-	Life -= Damage;
 	BP_OnReciveDamage(Damage);
-	SetProgresBarProgress((float)Life / MaxLife);
-	UE_LOG(LogTemp, Warning, TEXT("LifeController: %f damage, Instigator: %s"), Damage, *Instigator->GetName());
+	float Percent = (float)Target->Life / Target->MaxLife;
+	SetProgresBarProgress(Percent);
+	UE_LOG(LogTemp, Warning, TEXT("LifeController: %f damage, Instigator: %s"), Damage, *Offender->GetName());
 }
 
 void UTC_LifeController::SetProgresBarProgress(float Progress) const

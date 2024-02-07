@@ -5,6 +5,7 @@
 #include "Runtime/UMG/Public/Components/ProgressBar.h"
 #include "LifeController.generated.h"
 
+class UBaseLifeController;
 class IDamageable;
 class UProgressBar;
 class ACoreGameCharacter;
@@ -21,14 +22,9 @@ public:
 	UProgressBar* LifeBar = nullptr;
 
 	UFUNCTION()
-	void OnReciveDamage(float Damage, AActor* Instigator);
+	void OnReciveDamage(float Damage, AActor* Instigator, UBaseLifeController* Target);
 
 protected:
-	UPROPERTY(BlueprintReadOnly, category = CoreCharacter)
-	int Life = 100;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
-	int MaxLife = 100;
-
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_OnReciveDamage(float Damage);
 	void SetProgresBarProgress(float Progress) const;

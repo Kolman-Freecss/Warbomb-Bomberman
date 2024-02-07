@@ -8,6 +8,7 @@
 #include "Logging/LogMacros.h"
 #include "CoreGameCharacter.generated.h"
 
+class UBaseLifeController;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
@@ -54,6 +55,9 @@ public:
 	ACoreGameCharacter();
 
 	FOnPlayerReciveBomb OnPlayerReciveBombEvent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UBaseLifeController* LifeController;
 
 	UFUNCTION(BlueprintCallable)
 	void AddBomb(int Quantity);
