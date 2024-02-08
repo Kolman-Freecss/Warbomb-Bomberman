@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BombType.h"
 #include "Components/PrimitiveComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/HitResult.h"
 #include "TCPickupBomb.generated.h"
 
+enum class BombType : uint8;
 class UStaticMeshComponent;
 class UParticleSystemComponent;
 class USphereComponent;
@@ -29,8 +31,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USphereComponent* DamageArea = nullptr;
 
-protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	BombType BombType = BombType::WEAK;
 
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
 	int Amount = 1;
 
@@ -38,5 +42,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

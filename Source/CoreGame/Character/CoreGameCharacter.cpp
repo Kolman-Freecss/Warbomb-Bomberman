@@ -56,6 +56,11 @@ ACoreGameCharacter::ACoreGameCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 	LifeController = CreateDefaultSubobject<UBaseLifeController>(TEXT("LifeController"));
+
+	BombsPool.Add(BombType::WEAK, 2);
+	BombsPool.Add(BombType::STRONG, 0);
+
+	CurrentBombType = BombType::WEAK;
 }
 
 void ACoreGameCharacter::BeginPlay()
@@ -151,7 +156,7 @@ void ACoreGameCharacter::TakeDamage(float Damage, AActor* Offender)
 
 void ACoreGameCharacter::ThrowBomb()
 {
-	if (!bCanThrowBomb || BombCounter <= 0)
+	if (!bCanThrowBomb || BombsPool[CurrentBombType] <= 0)
 	{
 		return;
 	}
@@ -161,27 +166,28 @@ void ACoreGameCharacter::ThrowBomb()
 
 	// Spawn Bomb C++
 	const FTransform BombPositon = BP_GetBombPosition();
-	ATCBomb* Bomb = GetWorld()->SpawnActor<ATCBomb>(BombClass, BombPositon);
+	TSubclassOf<ATCBomb>* SubclassPtr = &(Bombs[CurrentBombType]);
+	ATCBomb* Bomb = GetWorld()->SpawnActor<ATCBomb>((*SubclassPtr), BombPositon);
 
 	// Set timer: Bomb delay
 	bCanThrowBomb = false;
-	BombCounter--;
+	BombsPool[CurrentBombType]--;
 	GetWorldTimerManager().SetTimer(BombTimerHandle, this, &ACoreGameCharacter::Fn3, BombDelayTime, false);
 
 	// Call the event to update the UI.
-	OnPlayerReciveBombEvent.Broadcast(BombCounter);
+	OnPlayerReciveBombEvent.Broadcast(BombsPool[CurrentBombType]);
 
 	// Set timer: Bomb delay -> (Using a lambda function)
 	//auto fn = [&]() { bCanThrowBomb = true; };
 	//GetWorldTimerManager().SetTimer(BombTimerHandle,fn, BombDelayTime, false);
 }
 
-void ACoreGameCharacter::AddBomb(int Quantity)
+void ACoreGameCharacter::AddBomb(int Quantity, BombType Type)
 {
-	BombCounter += Quantity;
+	BombsPool[Type] += Quantity;
 
 	// Call the event to update the UI.
-	OnPlayerReciveBombEvent.Broadcast(BombCounter);
+	OnPlayerReciveBombEvent.Broadcast(BombsPool[Type]);
 }
 
 void ACoreGameCharacter::Fn3()
@@ -191,5 +197,5 @@ void ACoreGameCharacter::Fn3()
 
 int ACoreGameCharacter::GetBombsQuantity() const
 {
-	return BombCounter;
+	return BombsPool[CurrentBombType];
 }

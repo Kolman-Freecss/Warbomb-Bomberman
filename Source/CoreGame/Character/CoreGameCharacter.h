@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CoreGame/RoundComponents/BombType.h"
 #include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/Damageable/IDamageable.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "CoreGameCharacter.generated.h"
 
+enum class BombType : uint8;
 class UBaseLifeController;
 class USpringArmComponent;
 class UCameraComponent;
@@ -60,7 +62,7 @@ public:
 	UBaseLifeController* LifeController;
 
 	UFUNCTION(BlueprintCallable)
-	void AddBomb(int Quantity);
+	void AddBomb(int Quantity, BombType Type);
 	int GetBombsQuantity() const;
 
 	virtual void TakeDamage(float Damage, AActor* Offender) override;
@@ -69,13 +71,16 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
 	float BombDelayTime = 2.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
-	int BombCounter = 2;
-
 	bool bCanThrowBomb = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
-	TSubclassOf<ATCBomb> BombClass;
+	TMap<BombType, TSubclassOf<ATCBomb>> Bombs;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
+	TMap<BombType, int> BombsPool;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
+	BombType CurrentBombType = BombType::WEAK;
 
 	FTimerHandle BombTimerHandle;
 

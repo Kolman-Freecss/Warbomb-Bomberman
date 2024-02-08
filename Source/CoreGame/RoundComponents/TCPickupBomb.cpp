@@ -40,7 +40,7 @@ void ATCPickupBomb::OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor
 	if (ACoreGameCharacter* MyCharacter = Cast<ACoreGameCharacter>(OtherActor))
 	{
 		Particle->Activate();
-		MyCharacter->AddBomb(Amount);
+		MyCharacter->AddBomb(Amount, BombType);
 
 		//Mesh->SetVisibility(false);
 		//Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);

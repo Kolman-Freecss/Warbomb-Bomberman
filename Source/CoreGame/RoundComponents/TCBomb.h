@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BombType.h"
 #include "Components/PrimitiveComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/HitResult.h"
 #include "TCBomb.generated.h"
 
+enum class BombType : uint8;
 class UStaticMeshComponent;
 class UParticleSystemComponent;
 class USphereComponent;
@@ -41,6 +43,8 @@ public:
 	float InitialForce = 10000.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	UParticleSystem* ExplosionParticles = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
+	BombType Type = BombType::WEAK;
 
 	void OnExplode();
 	void OnFinishExplosion();
