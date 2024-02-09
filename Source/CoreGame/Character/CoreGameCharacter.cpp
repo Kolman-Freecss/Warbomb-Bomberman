@@ -96,6 +96,12 @@ void ACoreGameCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACoreGameCharacter::Look);
+
+		EnhancedInputComponent->BindAction(ChangeBombFwdAction, ETriggerEvent::Triggered, this,
+		                                   &ACoreGameCharacter::ChangeBombFwd);
+
+		EnhancedInputComponent->BindAction(ChangeBombBwdAction, ETriggerEvent::Triggered, this,
+		                                   &ACoreGameCharacter::ChangeBombBwd);
 	}
 	else
 	{
@@ -145,6 +151,26 @@ void ACoreGameCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void ACoreGameCharacter::ChangeBombFwd()
+{
+	uint8 NewBombType = static_cast<uint8>(CurrentBombType) + 1;
+	if (NewBombType >= static_cast<uint8>(BombType::MAX))
+	{
+		NewBombType = 0;
+	}
+	CurrentBombType = static_cast<BombType>(NewBombType);
+}
+
+void ACoreGameCharacter::ChangeBombBwd()
+{
+	uint8 NewBombType = static_cast<uint8>(CurrentBombType) - 1;
+	if (NewBombType >= static_cast<uint8>(BombType::MAX))
+	{
+		NewBombType = static_cast<uint8>(BombType::MAX) - 1;
+	}
+	CurrentBombType = static_cast<BombType>(NewBombType);
 }
 
 void ACoreGameCharacter::TakeDamage(float Damage, AActor* Offender)

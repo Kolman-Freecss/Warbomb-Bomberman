@@ -53,6 +53,12 @@ class ACoreGameCharacter : public ACharacter,
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ChangeBombFwdAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ChangeBombBwdAction;
+
 public:
 	ACoreGameCharacter();
 
@@ -102,6 +108,9 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	void ChangeBombFwd();
+	void ChangeBombBwd();
 
 protected:
 	// APawn interface
