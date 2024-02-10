@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "TC_UIBombCounter.generated.h"
 
+enum class BombType : uint8;
 class UProgressBar;
 class ACoreGameCharacter;
 
@@ -23,6 +24,6 @@ protected:
 
 private:
 	UFUNCTION()
-	void OnReciveBomb(int Amount);
+	void OnReciveBomb(int Amount, BombType Type);
 	ACoreGameCharacter* GetCoreCharacter() const;
 };

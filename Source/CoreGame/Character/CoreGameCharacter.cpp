@@ -201,7 +201,7 @@ void ACoreGameCharacter::ThrowBomb()
 	GetWorldTimerManager().SetTimer(BombTimerHandle, this, &ACoreGameCharacter::Fn3, BombDelayTime, false);
 
 	// Call the event to update the UI.
-	OnPlayerReciveBombEvent.Broadcast(BombsPool[CurrentBombType]);
+	OnPlayerReciveBombEvent.Broadcast(BombsPool[CurrentBombType], CurrentBombType);
 
 	// Set timer: Bomb delay -> (Using a lambda function)
 	//auto fn = [&]() { bCanThrowBomb = true; };
@@ -213,7 +213,7 @@ void ACoreGameCharacter::AddBomb(int Quantity, BombType Type)
 	BombsPool[Type] += Quantity;
 
 	// Call the event to update the UI.
-	OnPlayerReciveBombEvent.Broadcast(BombsPool[Type]);
+	OnPlayerReciveBombEvent.Broadcast(BombsPool[Type], Type);
 }
 
 void ACoreGameCharacter::Fn3()
@@ -221,7 +221,32 @@ void ACoreGameCharacter::Fn3()
 	bCanThrowBomb = true;
 }
 
+
+#pragma region Getter and Setter
+
+/**
+ * Get the quantity of bombs of current type.
+ * @return
+ */
 int ACoreGameCharacter::GetBombsQuantity() const
 {
 	return BombsPool[CurrentBombType];
 }
+
+/**
+ * Get the quantity of bombs of a specific type.
+ * @param Type
+ * @return
+ */
+int ACoreGameCharacter::GetBombsQuantity(BombType Type) const
+{
+	return BombsPool[Type];
+}
+
+
+TMap<BombType, int> ACoreGameCharacter::GetBombsPool() const
+{
+	return BombsPool;
+}
+
+#pragma endregion

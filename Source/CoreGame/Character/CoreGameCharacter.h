@@ -20,7 +20,7 @@ struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerReciveBomb, int, Amount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPlayerReciveBomb, int, Amount, BombType, Type);
 
 
 UCLASS(config = Game)
@@ -29,6 +29,7 @@ class ACoreGameCharacter : public ACharacter,
 {
 	GENERATED_BODY()
 
+#pragma region Components
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* CameraBoom;
@@ -59,6 +60,8 @@ class ACoreGameCharacter : public ACharacter,
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ChangeBombBwdAction;
 
+#pragma endregion
+
 public:
 	ACoreGameCharacter();
 
@@ -69,7 +72,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AddBomb(int Quantity, BombType Type);
-	int GetBombsQuantity() const;
 
 	virtual void TakeDamage(float Damage, AActor* Offender) override;
 
@@ -126,4 +128,10 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	void Fn3();
+
+	int GetBombsQuantity() const;
+
+	int GetBombsQuantity(BombType Type) const;
+
+	TMap<BombType, int> GetBombsPool() const;
 };

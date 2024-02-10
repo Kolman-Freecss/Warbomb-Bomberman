@@ -3,7 +3,6 @@
 #include "TC_UIBombCounter.h"
 
 #include "CoreGame/Character/CoreGameCharacter.h"
-#include "Runtime/UMG/Public/Components/ProgressBar.h"
 #include "Kismet/GameplayStatics.h"
 
 void UTC_UIBombCounter::NativeOnInitialized()
@@ -30,7 +29,7 @@ ACoreGameCharacter* UTC_UIBombCounter::GetCoreCharacter() const
 	return nullptr;
 }
 
-void UTC_UIBombCounter::OnReciveBomb(int Amount)
+void UTC_UIBombCounter::OnReciveBomb(int Amount, BombType Type)
 {
 	BP_OnReciveBomb(Amount);
 }
