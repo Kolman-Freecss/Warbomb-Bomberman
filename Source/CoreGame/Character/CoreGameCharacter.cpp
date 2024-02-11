@@ -161,6 +161,7 @@ void ACoreGameCharacter::ChangeBombFwd()
 		NewBombType = 0;
 	}
 	CurrentBombType = static_cast<BombType>(NewBombType);
+	OnPlayerChangeWeaponBombEvent.Broadcast(CurrentBombType);
 }
 
 void ACoreGameCharacter::ChangeBombBwd()
@@ -171,6 +172,7 @@ void ACoreGameCharacter::ChangeBombBwd()
 		NewBombType = static_cast<uint8>(BombType::MAX) - 1;
 	}
 	CurrentBombType = static_cast<BombType>(NewBombType);
+	OnPlayerChangeWeaponBombEvent.Broadcast(CurrentBombType);
 }
 
 void ACoreGameCharacter::TakeDamage(float Damage, AActor* Offender)
@@ -247,6 +249,11 @@ int ACoreGameCharacter::GetBombsQuantity(BombType Type) const
 TMap<BombType, int> ACoreGameCharacter::GetBombsPool() const
 {
 	return BombsPool;
+}
+
+BombType ACoreGameCharacter::GetCurrentBombType() const
+{
+	return CurrentBombType;
 }
 
 #pragma endregion

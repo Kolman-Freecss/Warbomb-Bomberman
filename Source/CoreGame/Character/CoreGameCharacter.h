@@ -22,6 +22,8 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPlayerReciveBomb, int, Amount, BombType, Type);
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerChangeWeaponBomb, BombType);
+
 
 UCLASS(config = Game)
 class ACoreGameCharacter : public ACharacter,
@@ -66,6 +68,7 @@ public:
 	ACoreGameCharacter();
 
 	FOnPlayerReciveBomb OnPlayerReciveBombEvent;
+	FOnPlayerChangeWeaponBomb OnPlayerChangeWeaponBombEvent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UBaseLifeController* LifeController;
@@ -129,9 +132,13 @@ public:
 
 	void Fn3();
 
+#pragma region Getters and Setters
 	int GetBombsQuantity() const;
 
 	int GetBombsQuantity(BombType Type) const;
 
+	BombType GetCurrentBombType() const;
+
 	TMap<BombType, int> GetBombsPool() const;
+#pragma endregion
 };
