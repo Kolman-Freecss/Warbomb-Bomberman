@@ -10,4 +10,5 @@ class COREGAME_API UTC_ScreenLifeBar : public UTC_LifeBarWidget
 	GENERATED_BODY()
 
 public:
+	virtual void NativeOnInitialized() override;
 };
