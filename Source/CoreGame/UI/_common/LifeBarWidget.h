@@ -22,7 +22,7 @@ public:
 	UProgressBar* LifeBar = nullptr;
 
 	UFUNCTION()
-	void OnReciveDamage(float Damage, AActor* Instigator, UBaseLifeController* Target);
+	void OnReciveDamage(float Damage, AActor* _Instigator, UBaseLifeController* Target);
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent)

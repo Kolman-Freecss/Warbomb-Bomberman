@@ -13,7 +13,7 @@ void UTC_LifeBarWidget::NativeOnInitialized()
 	SetProgresBarProgress(1.f);
 }
 
-void UTC_LifeBarWidget::OnReciveDamage(float Damage, AActor* Offender, UBaseLifeController* Target)
+void UTC_LifeBarWidget::OnReciveDamage(float Damage, AActor* _Instigator, UBaseLifeController* Target)
 {
 	BP_OnReciveDamage(Damage);
 	SetProgresBarProgress((float)Target->Life / Target->MaxLife);

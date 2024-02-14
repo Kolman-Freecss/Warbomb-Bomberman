@@ -174,10 +174,10 @@ void ACoreGameCharacter::ChangeBombBwd()
 	OnPlayerChangeWeaponBombEvent.Broadcast(CurrentBombType);
 }
 
-void ACoreGameCharacter::TakeDamage(float Damage, AActor* Offender)
+void ACoreGameCharacter::TakeDamage(float Damage, AActor* _Instigator)
 {
-	OnTakeDamage.Broadcast(Damage, Offender, nullptr);
-	BP_OnGetDamage(Damage, Offender);
+	OnTakeDamage.Broadcast(Damage, _Instigator, nullptr);
+	BP_OnGetDamage(Damage, _Instigator);
 }
 
 void ACoreGameCharacter::ThrowBomb()
