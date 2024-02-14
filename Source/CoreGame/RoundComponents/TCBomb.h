@@ -38,7 +38,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	float DamageRadius = 400.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
-	int Damage = 2.f;
+	int Damage = 1.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	float InitialForce = 10000.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)

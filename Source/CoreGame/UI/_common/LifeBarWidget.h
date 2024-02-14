@@ -27,5 +27,5 @@ public:
 protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_OnReciveDamage(float Damage);
-	void SetProgresBarProgress(float Progress) const;
+	void SetProgresBarProgress(float Progress);
 };

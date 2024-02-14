@@ -16,12 +16,10 @@ void UTC_LifeBarWidget::NativeOnInitialized()
 void UTC_LifeBarWidget::OnReciveDamage(float Damage, AActor* Offender, UBaseLifeController* Target)
 {
 	BP_OnReciveDamage(Damage);
-	float Percent = (float)Target->Life / Target->MaxLife;
-	SetProgresBarProgress(Percent);
-	UE_LOG(LogTemp, Warning, TEXT("LifeController: %f damage, Instigator: %s"), Damage, *Offender->GetName());
+	SetProgresBarProgress((float)Target->Life / Target->MaxLife);
 }
 
-void UTC_LifeBarWidget::SetProgresBarProgress(float Progress) const
+void UTC_LifeBarWidget::SetProgresBarProgress(float Progress)
 {
 	if (LifeBar)
 	{

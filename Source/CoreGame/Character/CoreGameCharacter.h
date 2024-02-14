@@ -70,9 +70,6 @@ public:
 	FOnPlayerReciveBomb OnPlayerReciveBombEvent;
 	FOnPlayerChangeWeaponBomb OnPlayerChangeWeaponBombEvent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UBaseLifeController* LifeController;
-
 	UFUNCTION(BlueprintCallable)
 	void AddBomb(int Quantity, BombType Type);
 

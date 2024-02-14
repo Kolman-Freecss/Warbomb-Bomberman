@@ -55,7 +55,6 @@ ACoreGameCharacter::ACoreGameCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
-	LifeController = CreateDefaultSubobject<UBaseLifeController>(TEXT("LifeController"));
 
 	BombsPool.Add(BombType::WEAK, 2);
 	BombsPool.Add(BombType::STRONG, 0);
@@ -177,8 +176,7 @@ void ACoreGameCharacter::ChangeBombBwd()
 
 void ACoreGameCharacter::TakeDamage(float Damage, AActor* Offender)
 {
-	LifeController->Life -= Damage;
-	OnTakeDamage.Broadcast(Damage, Offender, LifeController);
+	OnTakeDamage.Broadcast(Damage, Offender, nullptr);
 	BP_OnGetDamage(Damage, Offender);
 }
 
@@ -188,9 +186,6 @@ void ACoreGameCharacter::ThrowBomb()
 	{
 		return;
 	}
-
-	// TrowBomb (Using Blueprint function)
-	//BP_ThrowBomb();
 
 	// Spawn Bomb C++
 	const FTransform BombPositon = BP_GetBombPosition();
@@ -204,10 +199,6 @@ void ACoreGameCharacter::ThrowBomb()
 
 	// Call the event to update the UI.
 	OnPlayerReciveBombEvent.Broadcast(BombsPool[CurrentBombType], CurrentBombType);
-
-	// Set timer: Bomb delay -> (Using a lambda function)
-	//auto fn = [&]() { bCanThrowBomb = true; };
-	//GetWorldTimerManager().SetTimer(BombTimerHandle,fn, BombDelayTime, false);
 }
 
 void ACoreGameCharacter::AddBomb(int Quantity, BombType Type)

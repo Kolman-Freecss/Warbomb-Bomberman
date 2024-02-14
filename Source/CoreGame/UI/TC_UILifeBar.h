@@ -16,8 +16,5 @@ class COREGAME_API UTC_UILifeBar : public UTC_LifeBarWidget
 
 public:
 	virtual void NativeOnInitialized() override;
-
-private:
-	UFUNCTION()
-	ACoreGameCharacter* GetCoreCharacter() const;
+	virtual void NativeConstruct() override;
 };

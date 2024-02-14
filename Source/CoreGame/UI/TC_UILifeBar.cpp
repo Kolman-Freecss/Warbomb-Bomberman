@@ -2,24 +2,20 @@
 
 #include "TC_UILifeBar.h"
 
-#include "CoreGame/Character/CoreGameCharacter.h"
 #include "Animation/AnimInstance.h"
-#include "Kismet/GameplayStatics.h"
+#include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Config/PlayerState/CoreGamePlayerState.h"
 
 void UTC_UILifeBar::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-	if (ACoreGameCharacter* Character = GetCoreCharacter())
-	{
-		Character->OnTakeDamage.AddUniqueDynamic(this, &UTC_UILifeBar::OnReciveDamage);
-	}
 }
 
-ACoreGameCharacter* UTC_UILifeBar::GetCoreCharacter() const
+void UTC_UILifeBar::NativeConstruct()
 {
-	if (ACharacter* Character = UGameplayStatics::GetPlayerCharacter(this, 0))
+	Super::NativeConstruct();
+	if (ACoreGamePlayerState* PlayerState = Cast<
+		ACoreGamePlayerState>(GetOwningPlayerState()))
 	{
-		return Cast<ACoreGameCharacter>(Character);
+		PlayerState->OnCharacterDamaged.AddUniqueDynamic(this, &UTC_UILifeBar::OnReciveDamage);
 	}
-	return nullptr;
 }
