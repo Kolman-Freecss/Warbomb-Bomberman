@@ -9,6 +9,7 @@
 #include "Logging/LogMacros.h"
 #include "CoreGameCharacter.generated.h"
 
+class USphereComponent;
 enum class BombType : uint8;
 class UBaseLifeController;
 class USpringArmComponent;
@@ -61,6 +62,10 @@ class ACoreGameCharacter : public ACharacter,
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ChangeBombBwdAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Interaction Instigator",
+		meta = (AllowPrivateAccess = "true"))
+	USphereComponent* InteractionArea = nullptr;
 
 #pragma endregion
 
@@ -137,5 +142,7 @@ public:
 	BombType GetCurrentBombType() const;
 
 	TMap<BombType, int> GetBombsPool() const;
+
+	FORCEINLINE USphereComponent* GetInteractionArea() const { return InteractionArea; }
 #pragma endregion
 };

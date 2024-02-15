@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "../RoundComponents/TCBomb.h"
+#include "Components/SphereComponent.h"
 #include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/_common/BaseLifeController.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -55,6 +56,11 @@ ACoreGameCharacter::ACoreGameCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	InteractionArea = CreateDefaultSubobject<USphereComponent>(TEXT("InteractionArea"));
+	InteractionArea->SetupAttachment(RootComponent);
+
+	UE_LOG(LogTemplateCharacter, Warning, TEXT("ACoreGameCharacter Constructor"));
 
 	BombsPool.Add(BombType::WEAK, 2);
 	BombsPool.Add(BombType::STRONG, 0);
@@ -213,7 +219,6 @@ void ACoreGameCharacter::Fn3()
 {
 	bCanThrowBomb = true;
 }
-
 
 #pragma region Getter and Setter
 
