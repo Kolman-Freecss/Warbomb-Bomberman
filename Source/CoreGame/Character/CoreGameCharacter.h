@@ -73,7 +73,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddBomb(int Quantity, BombType Type);
 
-	virtual void TakeDamage(float Damage, AActor* _Instigator) override;
+	virtual void TakeDamage(const float Damage, const AActor* _Instigator) override;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
@@ -93,7 +93,7 @@ protected:
 	FTimerHandle BombTimerHandle;
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void BP_OnGetDamage(int Damage, AActor* _Instigator);
+	void BP_OnGetDamage(const int Damage, const AActor* _Instigator);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	FTransform BP_GetBombPosition();
