@@ -12,6 +12,7 @@
 #include "InputActionValue.h"
 #include "../RoundComponents/TCBomb.h"
 #include "Components/SphereComponent.h"
+#include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/Character/UCharacterInteractionInstigator.h"
 #include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/_common/BaseLifeController.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -119,6 +120,7 @@ void ACoreGameCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	if (PlayerInputComponent)
 	{
 		PlayerInputComponent->BindAction("ThrowBomb", IE_Pressed, this, &ACoreGameCharacter::ThrowBomb);
+		PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &ACoreGameCharacter::Interaction);
 	}
 }
 
@@ -205,6 +207,12 @@ void ACoreGameCharacter::ThrowBomb()
 
 	// Call the event to update the UI.
 	OnPlayerReciveBombEvent.Broadcast(BombsPool[CurrentBombType], CurrentBombType);
+}
+
+void ACoreGameCharacter::Interaction()
+{
+	UE_LOG(LogTemplateCharacter, Warning, TEXT("Interaction"));
+	InteractionInstigator->OnInteraction();
 }
 
 void ACoreGameCharacter::AddBomb(int Quantity, BombType Type)

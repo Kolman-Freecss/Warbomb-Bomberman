@@ -9,6 +9,7 @@
 #include "Logging/LogMacros.h"
 #include "CoreGameCharacter.generated.h"
 
+class UCharacterInteractionInstigator;
 class USphereComponent;
 enum class BombType : uint8;
 class UBaseLifeController;
@@ -116,6 +117,8 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
+	void Interaction();
+
 	void ChangeBombFwd();
 	void ChangeBombBwd();
 
@@ -127,6 +130,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	UCharacterInteractionInstigator* InteractionInstigator;
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
