@@ -20,10 +20,8 @@ class COREGAME_API ATCBomb : public AActor
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	ATCBomb();
 
-	// https://benui.ca/unreal/uproperty/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* Mesh = nullptr;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -33,18 +31,27 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	float LifeTime = 3.f;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	float ExplosionTime = 1.f;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	float DamageRadius = 400.f;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	int Damage = 1.f;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	float InitialForce = 10000.f;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	UParticleSystem* ExplosionParticles = nullptr;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = BombParams)
 	BombType Type = BombType::WEAK;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = BombParams)
+	USoundBase* ExplosionSound = nullptr;
 
 	void OnExplode();
 	void OnFinishExplosion();

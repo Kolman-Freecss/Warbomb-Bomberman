@@ -5,6 +5,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "CoreGame/Character/CoreGameCharacter.h"
+#include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Config/GameInstance/CoreGameInstance.h"
 #include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
@@ -39,6 +40,10 @@ void ATCPickupBomb::OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor
 {
 	if (ACoreGameCharacter* MyCharacter = Cast<ACoreGameCharacter>(OtherActor))
 	{
+		if (PickupSound)
+		{
+			Cast<UCoreGameInstance>(GetGameInstance())->Play2DSFXCommonSound(PickupSound);
+		}
 		Particle->Activate();
 		MyCharacter->AddBomb(Amount, BombType);
 

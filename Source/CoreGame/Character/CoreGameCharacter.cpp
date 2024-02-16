@@ -12,6 +12,7 @@
 #include "InputActionValue.h"
 #include "../RoundComponents/TCBomb.h"
 #include "Components/SphereComponent.h"
+#include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Config/GameInstance/CoreGameInstance.h"
 #include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/Character/UCharacterInteractionInstigator.h"
 #include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/_common/BaseLifeController.h"
 
@@ -63,8 +64,11 @@ ACoreGameCharacter::ACoreGameCharacter()
 
 	UE_LOG(LogTemplateCharacter, Warning, TEXT("ACoreGameCharacter Constructor"));
 
-	BombsPool.Add(BombType::WEAK, 2);
-	BombsPool.Add(BombType::STRONG, 0);
+	if (BombsPool.Num() == 0)
+	{
+		BombsPool.Add(BombType::WEAK, 2);
+		BombsPool.Add(BombType::STRONG, 0);
+	}
 
 	CurrentBombType = BombType::WEAK;
 }
@@ -184,6 +188,10 @@ void ACoreGameCharacter::ChangeBombBwd()
 
 void ACoreGameCharacter::TakeDamage(const float Damage, const AActor* _Instigator)
 {
+	if (GetDamageSound)
+		Cast<UCoreGameInstance>(GetGameInstance())->Play2DSFXCommonSound(GetDamageSound);
+	else
+		UE_LOG(LogTemplateCharacter, Warning, TEXT("GetDamageSound is not set"));
 	OnTakeDamage.Broadcast(Damage, _Instigator, nullptr);
 	BP_OnGetDamage(Damage, _Instigator);
 }
@@ -192,6 +200,10 @@ void ACoreGameCharacter::ThrowBomb()
 {
 	if (!bCanThrowBomb || BombsPool[CurrentBombType] <= 0)
 	{
+		if (NoBombSound)
+			Cast<UCoreGameInstance>(GetGameInstance())->Play2DSFXCommonSound(NoBombSound);
+		else
+			UE_LOG(LogTemplateCharacter, Warning, TEXT("NoBombSound is not set"));
 		return;
 	}
 
@@ -200,6 +212,11 @@ void ACoreGameCharacter::ThrowBomb()
 	TSubclassOf<ATCBomb>* SubclassPtr = &(Bombs[CurrentBombType]);
 	ATCBomb* Bomb = GetWorld()->SpawnActor<ATCBomb>((*SubclassPtr), BombPositon);
 
+	if (ThrowBombSound)
+		Cast<UCoreGameInstance>(GetGameInstance())->Play2DSFXCommonSound(ThrowBombSound);
+	else
+		UE_LOG(LogTemplateCharacter, Warning, TEXT("ThrowBombSound is not set"));
+	
 	// Set timer: Bomb delay
 	bCanThrowBomb = false;
 	BombsPool[CurrentBombType]--;

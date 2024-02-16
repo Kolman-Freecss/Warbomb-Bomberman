@@ -5,12 +5,11 @@
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "CoreGame/Character/CoreGameCharacter.h"
+#include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Config/GameInstance/CoreGameInstance.h"
 #include "Particles/ParticleSystemComponent.h"
 
-// Sets default values
 ATCBomb::ATCBomb()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
@@ -26,7 +25,6 @@ ATCBomb::ATCBomb()
 	DamageArea->SetSphereRadius(0.f);
 }
 
-// Called when the game starts or when spawned
 void ATCBomb::BeginPlay()
 {
 	Super::BeginPlay();
@@ -38,6 +36,15 @@ void ATCBomb::BeginPlay()
 
 void ATCBomb::OnExplode()
 {
+	if (ExplosionSound)
+	{
+		// TODO: This should be a 3D sound
+		Cast<UCoreGameInstance>(GetWorld()->GetGameInstance())->Play2DSFXCommonSound(ExplosionSound);
+	} else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Explosion sound is not set"));
+	}
+	
 	DamageArea->OnComponentBeginOverlap.AddUniqueDynamic(this, &ATCBomb::OnBeginOverlap);
 	Particle->SetTemplate(ExplosionParticles);
 	Particle->Activate();

@@ -14,6 +14,7 @@ class UStaticMeshComponent;
 class UParticleSystemComponent;
 class USphereComponent;
 
+// TODO: Change this class to Collectable component
 UCLASS(/*meta = (DisableNativeTick)*/)
 class COREGAME_API ATCPickupBomb : public AActor
 {
@@ -33,6 +34,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	BombType BombType = BombType::WEAK;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, category = CoreCharacter)
+	USoundBase* PickupSound = nullptr;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)

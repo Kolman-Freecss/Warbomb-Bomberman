@@ -82,6 +82,19 @@ public:
 	virtual void TakeDamage(const float Damage, const AActor* _Instigator) override;
 
 protected:
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual void BeginPlay() override;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, category = CoreCharacter)
+	USoundBase* GetDamageSound;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, category = CoreCharacter)
+	USoundBase* ThrowBombSound;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, category = CoreCharacter)
+	USoundBase* NoBombSound;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, category = CoreCharacter)
 	float BombDelayTime = 2.f;
 
@@ -104,41 +117,33 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	FTransform BP_GetBombPosition();
 
-
 	UFUNCTION(BlueprintCallable)
 	void ThrowBomb();
+	
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_ThrowBomb();
 
-
-	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 
-	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 
 	void Interaction();
 
 	void ChangeBombFwd();
+	
 	void ChangeBombBwd();
-
-protected:
-	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	// To add mapping context
-	virtual void BeginPlay() override;
 
 public:
 	UCharacterInteractionInstigator* InteractionInstigator;
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 	void Fn3();
 
 #pragma region Getters and Setters
+	
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
 	int GetBombsQuantity() const;
 
 	int GetBombsQuantity(BombType Type) const;
@@ -148,5 +153,6 @@ public:
 	TMap<BombType, int> GetBombsPool() const;
 
 	FORCEINLINE USphereComponent* GetInteractionArea() const { return InteractionArea; }
+	
 #pragma endregion
 };
