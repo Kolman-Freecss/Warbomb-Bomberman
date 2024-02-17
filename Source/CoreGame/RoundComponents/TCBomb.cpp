@@ -44,7 +44,7 @@ void ATCBomb::OnExplode()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Explosion sound is not set"));
 	}
-	
+
 	DamageArea->OnComponentBeginOverlap.AddUniqueDynamic(this, &ATCBomb::OnBeginOverlap);
 	Particle->SetTemplate(ExplosionParticles);
 	Particle->Activate();
@@ -64,8 +64,10 @@ void ATCBomb::OnFinishExplosion()
 void ATCBomb::OnBeginOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
                              int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (IDamageable* Damageable = Cast<IDamageable>(OtherActor))
+	IDamageable* Damageable = Cast<IDamageable>(OtherActor);
+	if (Damageable && !AlreadyDamagedActors.Contains(OtherActor->GetName()))
 	{
+		AlreadyDamagedActors.Add(OtherActor->GetName());
 		Damageable->TakeDamage(Damage, this);
 	}
 }
