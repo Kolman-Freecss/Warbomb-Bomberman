@@ -15,6 +15,8 @@
 #include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Config/GameInstance/CoreGameInstance.h"
 #include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/Character/UCharacterInteractionInstigator.h"
 #include "CoreGame/WarbombPrivateSystems/packages/KolmanFreecss/Core/_common/BaseLifeController.h"
+#include "PhysicsEngine/BodySetup.h"
+#include "PhysicsEngine/ConstraintInstance.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -125,6 +127,7 @@ void ACoreGameCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	{
 		PlayerInputComponent->BindAction("ThrowBomb", IE_Pressed, this, &ACoreGameCharacter::ThrowBomb);
 		PlayerInputComponent->BindAction("Interaction", IE_Pressed, this, &ACoreGameCharacter::Interaction);
+		PlayerInputComponent->BindAction("PlantBomb", IE_Pressed, this, &ACoreGameCharacter::PlantBomb);
 	}
 }
 
@@ -219,6 +222,42 @@ void ACoreGameCharacter::ThrowBomb()
 	
 	// Set timer: Bomb delay
 	bCanThrowBomb = false;
+	BombsPool[CurrentBombType]--;
+	GetWorldTimerManager().SetTimer(BombTimerHandle, this, &ACoreGameCharacter::Fn3, BombDelayTime, false);
+
+	// Call the event to update the UI.
+	OnPlayerReciveBombEvent.Broadcast(BombsPool[CurrentBombType], CurrentBombType);
+}
+
+void ACoreGameCharacter::PlantBomb()
+{
+	if (BombsPool[CurrentBombType] <= 0)
+	{
+		if (NoBombSound)
+			Cast<UCoreGameInstance>(GetGameInstance())->Play2DSFXCommonSound(NoBombSound);
+		else
+			UE_LOG(LogTemplateCharacter, Warning, TEXT("NoBombSound is not set"));
+		return;
+	}
+	
+	// Spawn Bomb C++
+	const FTransform BombPositon = BP_GetBombPosition();
+	TSubclassOf<ATCBomb>* SubclassPtr = &(Bombs[CurrentBombType]);
+	ATCBomb* Bomb = GetWorld()->SpawnActor<ATCBomb>((*SubclassPtr), BombPositon);
+	// Freeze position.
+	Bomb->Mesh->GetBodyInstance()->bLockXRotation = true;
+	Bomb->Mesh->GetBodyInstance()->bLockYRotation = true;
+	Bomb->Mesh->GetBodyInstance()->bLockZRotation = true;
+	Bomb->Mesh->GetBodyInstance()->bLockXTranslation = true;
+	Bomb->Mesh->GetBodyInstance()->bLockYTranslation = true;
+	Bomb->Mesh->GetBodyInstance()->SetDOFLock(EDOFMode::SixDOF);
+	
+
+	if (ThrowBombSound)
+		Cast<UCoreGameInstance>(GetGameInstance())->Play2DSFXCommonSound(ThrowBombSound);
+	else
+		UE_LOG(LogTemplateCharacter, Warning, TEXT("ThrowBombSound is not set"));
+
 	BombsPool[CurrentBombType]--;
 	GetWorldTimerManager().SetTimer(BombTimerHandle, this, &ACoreGameCharacter::Fn3, BombDelayTime, false);
 

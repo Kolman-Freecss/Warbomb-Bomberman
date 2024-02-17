@@ -119,7 +119,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void ThrowBomb();
-	
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_ThrowBomb();
 
@@ -135,6 +135,9 @@ protected:
 
 public:
 	UCharacterInteractionInstigator* InteractionInstigator;
+
+	UFUNCTION(BlueprintCallable)
+	void PlantBomb();
 
 	void Fn3();
 
