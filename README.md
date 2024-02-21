@@ -4,7 +4,7 @@ Master degree project on The Core School.
 
 <p align="center">
   <a href="https://github.com/Kolman-Freecss/Warbomb-Bomberman">
-    <img src="Content/3rdPartyAssets/packages/KolmanFreecss/Art/Sprites/Logo2-removebg-preview.PNG" width="400" alt="KolmanFreecsWarbomb Logo">
+    <img src="Logo_outlined.PNG" width="400" alt="KolmanFreecsWarbomb Logo">
   </a>
 </p>
 
