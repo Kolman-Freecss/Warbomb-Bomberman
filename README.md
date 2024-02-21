@@ -10,6 +10,12 @@ Master degree project on The Core School.
 
 ---
 
+<p align="center">
+  <a href="https://github.com/Kolman-Freecss/Warbomb-Bomberman">
+    <img src="Screenshot1.png" width="400" alt="Screenshot1">
+  </a>
+</p>
+
 ## Table of Contents
 
 - [Requirements](#requirements)
